@@ -1,0 +1,637 @@
+<div id="contenedor-juego" style="font-family: 'Courier New', Courier, monospace; max-width: 780px; margin: 20px auto; padding: 30px; background-color: #0b0f19; border: 4px solid #f43f5e; border-radius: 20px; text-align: center; color: white; box-shadow: 0 0 25px rgba(244, 63, 94, 0.5); position: relative; overflow: hidden; transition: transform 0.2s;">
+  
+  <div id="pantalla-historia" style="display: flex; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; justify-content: center; align-items: center; flex-direction: column; background: radial-gradient(circle, #2d0612 0%, #030712 100%); padding: 30px; box-sizing: border-box;">
+    <h2 id="titulo-pantalla-historia" style="color: #f43f5e; text-shadow: 0 0 15px rgba(244,63,94,0.6); font-size: 20px; margin-bottom: 5px; font-weight: bold; letter-spacing: 2px;">🚨 INFORME DE AMENAZA BIOLÓGICA</h2>
+    <div id="emoji-pantalla-historia" style="font-size: 50px; margin: 20px 0; animation: pulse 1.5s infinite;">☣️ ⚠️ 🚀</div>
+    
+    <div style="background: rgba(15, 23, 42, 0.95); border: 2px solid #f43f5e; border-left: 6px solid #e11d48; padding: 20px; border-radius: 12px; text-align: left; max-width: 85%; min-height: 110px; box-shadow: inset 0 0 15px rgba(0,0,0,0.6), 0 0 15px rgba(244,63,94,0.2);">
+      <p id="texto-historia-narrativa" style="font-size: 14px; margin: 0; line-height: 1.6; color: #ffedd5; font-style: italic; font-weight: 500;">Cargando registro...</p>
+    </div>
+    
+    <div style="margin-top: 25px; display: flex; gap: 15px;">
+      <button id="btn-siguiente-historia" onclick="avanzarHistoria()" style="background: linear-gradient(135deg, #f43f5e, #be123c); border: 2px solid #fda4af; color: white; padding: 12px 24px; border-radius: 8px; font-weight: bold; font-family: monospace; cursor: pointer; font-size: 13px; box-shadow: 0 0 15px rgba(244,63,94,0.3); transition: 0.2s;">SIGUIENTE REPORTE ➡️</button>
+      <button id="btn-omitir-historia" onclick="saltarHistoriaCompletamente()" style="background: none; border: 1px solid #4b5563; color: #94a3b8; padding: 12px 20px; border-radius: 8px; font-weight: bold; font-family: monospace; cursor: pointer; font-size: 12px;">OMITIR REPORTE CRÍTICO 🚀</button>
+    </div>
+  </div>
+
+  <div id="efecto-viaje" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 99; justify-content: center; align-items: center; flex-direction: column; opacity: 0; transition: opacity 0.4s ease-in-out; padding: 20px; box-sizing: border-box;">
+    <h2 id="texto-transicion" style="color: #fdba74; text-shadow: 0 0 15px #ea580c; font-size: 22px; margin: 5px; font-weight: bold;">🎬 NAVEGANDO ENTORNOS EN PELIGRO...</h2>
+    <p id="subtexto-transicion" style="color: #ffedd5; font-size: 14px; letter-spacing: 2px; margin: 15px 0; font-style: italic; max-width: 80%; line-height: 1.4;"></p>
+    <div style="font-size: 45px; margin: 15px 0;">🩸 ☠️ 🔬</div>
+    <button id="btn-omitir-transicion" style="margin-top: 20px; background: linear-gradient(135deg, #10b981, #059669); border: 2px solid #34d399; color: white; padding: 12px 28px; border-radius: 8px; font-weight: bold; font-family: monospace; cursor: pointer; font-size: 14px; box-shadow: 0 0 15px rgba(52,211,153,0.4);">ENTRAR AL SECTOR AFECTADO 🚀</button>
+  </div>
+
+  <h1 style="color: #38bdf8; text-shadow: 0 0 10px #38bdf8; margin-bottom: 5px; font-size: 26px;">🧬 ACADEMIA ANATÓMICA v10.0</h1>
+  <p id="subtitulo-juego" style="color: #ea580c; font-weight: bold; margin-top: 0; letter-spacing: 2px; text-shadow: 0 0 5px rgba(234,88,12,0.3);">⚠️ PARTE 1: INFECCIÓN EN EL HUÉSPED MASCULINO</p>
+
+  <div id="pantalla-menu" style="display: block; background: #111827; padding: 25px; border-radius: 15px; border: 2px solid #1f2937; margin-bottom: 20px;">
+    
+    <div style="border-bottom: 2px dashed #374151; padding-bottom: 15px; margin-bottom: 15px;">
+      <h3 style="color: #38bdf8; font-size: 15px; margin: 0 0 10px 0;">🧍‍♂️ FASE ACTUAL: PACIENTE CARLOS</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 650px; margin: 0 auto;">
+        <button id="btn-nivel1" onclick="intentarNivel(1)" style="background: linear-gradient(135deg, #ea580c, #f97316); border: none; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; color: white; cursor: pointer; text-align: left;">🍔 M-1: Dig. (7 Etapas)</button>
+        <button id="btn-nivel2" onclick="intentarNivel(2)" style="background: #1f2937; border: 1px dashed #4b5563; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; color: #4b5563; cursor: not-allowed; text-align: left;">🫁 M-2: Resp. <span id="candado-icono-2">🔒</span></button>
+        <button id="btn-nivel3" onclick="intentarNivel(3)" style="background: #1f2937; border: 1px dashed #4b5563; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; color: #4b5563; cursor: not-allowed; text-align: left;">🩸 M-3: Circ. <span id="candado-icono-3">🔒</span></button>
+        <button id="btn-nivel4" onclick="intentarNivel(4)" style="background: #1f2937; border: 1px dashed #4b5563; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; color: #4b5563; cursor: not-allowed; text-align: left;">🧪 M-4: Excr. <span id="candado-icono-4">🔒</span></button>
+        <button id="btn-nivel5" onclick="intentarNivel(5)" style="background: #1f2937; border: 1px dashed #4b5563; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; color: #4b5563; cursor: not-allowed; text-align: left;">🦴 M-5: Locomotor <span id="candado-icono-5">🔒</span></button>
+        <button id="btn-nivel6" onclick="intentarNivel(6)" style="background: #1f2937; border: 1px dashed #4b5563; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; color: #4b5563; cursor: not-allowed; text-align: left;">🚹 M-6: Repr. Masc. <span id="candado-icono-6">🔒</span></button>
+      </div>
+    </div>
+
+    <div id="seccion-secuela-elena" style="display: none; border-top: 2px solid #f43f5e; padding-top: 15px; margin-top: 15px; animation: glitchSecuela 1s ease-in-out;">
+      </div>
+
+    <div style="margin-top: 20px; background: #1f2937; padding: 10px; border-radius: 10px; display: inline-block;">
+      <span style="color: #94a3b8; font-size: 11px; font-weight: bold;">CÓDIGOS DE PURIFICACIÓN NUCLEARES:</span>
+      <div style="margin-top: 4px; display: flex; gap: 10px; justify-content: center; font-size: 16px;">
+        <span id="llave-r" style="filter: grayscale(100%); opacity: 0.2;">🫁🗝️</span>
+        <span id="llave-c" style="filter: grayscale(100%); opacity: 0.2;">🩸🗝️</span>
+        <span id="llave-e" style="filter: grayscale(100%); opacity: 0.2;">🧪🗝️</span>
+        <span id="llave-d" style="filter: grayscale(100%); opacity: 0.2;">🦴🗝️</span>
+        <span id="llave-m" style="filter: grayscale(100%); opacity: 0.2;">🚹🗝️</span>
+        <span id="llave-n" style="filter: grayscale(100%); opacity: 0.2; display: none;">🧠🗝️</span>
+        <span id="llave-h" style="filter: grayscale(100%); opacity: 0.2; display: none;">🧬🗝️</span>
+        <span id="llave-i" style="filter: grayscale(100%); opacity: 0.2; display: none;">🛡️🗝️</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="pantalla-juego" style="display: none; background: radial-gradient(circle, #2d0606 0%, #090202 100%); padding: 20px; border-radius: 15px; border: 2px solid #b91c1c;">
+    
+    <div style="display: flex; justify-content: space-around; background-color: rgba(17, 24, 39, 0.85); padding: 12px; border-radius: 10px; border: 1px solid #374151; margin-bottom: 15px;">
+      <div style="font-size: 11px; color: #38bdf8;">📍 ANATOMÍA: <span id="progreso-txt" style="font-weight: bold; color: #fde047;">Cargando...</span></div>
+      <div style="font-size: 11px; color: #34d399;">⚡ ANTÍDOTO: <span id="score" style="font-weight: bold;">0</span></div>
+      <div style="font-size: 11px; color: #f43f5e;">❤️ ESCUDOS: <span id="vidas" style="font-weight: bold;">5</span></div>
+    </div>
+
+    <div id="cuadro-historia" style="background: rgba(15, 23, 42, 0.95); border: 2px solid #ea580c; border-left: 6px solid #f97316; padding: 15px; border-radius: 12px; text-align: left; margin-bottom: 15px;">
+      <span style="font-size: 11px; color: #fdba74; font-weight: bold; display: block; margin-bottom: 4px;">📡 INTERCEPCIÓN DE LA TOXINA X-99:</span>
+      <p id="historia-texto" style="font-size: 13px; margin: 0; line-height: 1.5; color: #ffedd5; font-style: italic;"></p>
+    </div>
+
+    <div style="background: rgba(9, 13, 22, 0.7); padding: 15px; border-radius: 12px; border: 1px solid rgba(249, 115, 22, 0.4); min-height: 110px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+      <div id="pantalla-emoji" style="font-size: 40px; margin-bottom: 5px;">🍔</div>
+      <h3 id="pregunta-texto" style="color: #f8fafc; font-size: 14px; margin: 5px 0; line-height: 1.5;">Cargando...</h3>
+    </div>
+
+    <div style="min-height: 80px; margin: 12px 0; padding: 10px; background-color: rgba(17, 24, 39, 0.9); border-radius: 10px; border: 1px solid #374151;">
+      <p id="feedback" style="font-size: 13px; font-weight: bold; margin: 0 0 4px 0; text-align: center;"></p>
+      <p id="explicacion" style="font-size: 11px; color: #94a3b8; line-height: 1.4; margin: 0; text-align: left;"></p>
+      <div style="text-align: center;">
+        <button id="btn-siguiente" onclick="prepararSiguienteCasillaNarrativa()" style="display: none; margin-top: 8px; background-color: #d97706; border: none; color: white; padding: 6px 14px; border-radius: 6px; font-weight: bold; cursor: pointer;">Saltar a la Siguiente Coordenada 🎲</button>
+        <button id="btn-reintentar" onclick="regresarAlMenu()" style="display: none; margin-top: 8px; background-color: #ef4444; border: none; color: white; padding: 6px 14px; border-radius: 6px; font-weight: bold; cursor: pointer;">Regresar al Puesto de Mando 🛰️</button>
+      </div>
+    </div>
+
+    <div id="panel-botones" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px;">
+      <button onclick="comprobarRespuestaBoton(0)" id="btn0" style="background: rgba(31, 41, 55, 0.8); border: 1px solid #4b5563; padding: 12px; border-radius: 8px; font-size: 12px; color: white; cursor: pointer; text-align: left;"></button>
+      <button onclick="comprobarRespuestaBoton(1)" id="btn1" style="background: rgba(31, 41, 55, 0.8); border: 1px solid #4b5563; padding: 12px; border-radius: 8px; font-size: 12px; color: white; cursor: pointer; text-align: left;"></button>
+      <button onclick="comprobarRespuestaBoton(2)" id="btn2" style="background: rgba(31, 41, 55, 0.8); border: 1px solid #4b5563; padding: 12px; border-radius: 8px; font-size: 12px; color: white; cursor: pointer; text-align: left;"></button>
+      <button onclick="comprobarRespuestaBoton(3)" id="btn3" style="background: rgba(31, 41, 55, 0.8); border: 1px solid #4b5563; padding: 12px; border-radius: 8px; font-size: 12px; color: white; cursor: pointer; text-align: left;"></button>
+    </div>
+
+    <button id="btn-abortar" onclick="regresarAlMenu()" style="margin-top: 15px; background: none; border: 1px solid #4b5563; color: #94a3b8; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px;">⏹️ Abortar Inmersión Actual</button>
+  </div>
+</div>
+
+<script>
+  let indiceHistoria = 0;
+  let historiaActualBloque = [];
+  let tipoHistoriaModo = "";
+
+  const historiaCampana = {
+    introduccion: [
+      "⚠️ ¡ALERTA CRÍTICA DE LA CENTRAL! La Neurotoxina mutante X-99 ha infectado al paciente Carlos. Ha jurado pudrir sus órganos desde adentro y reírse de nuestros esfuerzos.",
+      "La Neurotoxina X-99 interrumpe la pantalla: '¿Creéis que vuestra insignificante nave puede purificar mis compuestos? Empezaré destruyendo el aparato digestivo de Carlos. ¡Preparaos para disolveros!'",
+      "¡Rápido! Introduce la micro-nave por la cavidad bucal antes de que X-99 corroa las membranas del tubo gástrico."
+    ],
+    postNivel1: [
+      "¡Aparato Digestivo a salvo! Pero X-99 hackea el radio de la nave: '¡Estúpidos bio-navegantes! He migrado a los pulmones de Carlos. ¡La Neurotoxina X-99 bloqueará cada alvéolo hasta dejarlo sin un solo soplo de aire!'",
+      "¡El árbol bronquial se está llenando de mucosidad tóxica ácida de la X-99!",
+      "Cargando antídotos respiratorios... ¡Inmersión en curso!"
+    ],
+    postNivel2: [
+      "¡Respiratorio purificado! La Neurotoxina X-99 grita furiosa: '¡No cantéis victoria! Me he subido a los glóbulos rojos. Viajo por el torrente sanguíneo hacia su corazón... ¡Haré estallar sus ventrículos con mis esporas X-99!'",
+      "Si la toxina destruye el músculo cardíaco de Carlos, el juego terminará instantáneamente.",
+      "Acelerando motores al ritmo del pulso cardíaco... ¡Entrando a la corriente sanguínea!"
+    ],
+    postNivel3: [
+      "¡Sistema Circulatorio rescatado! X-99 se burla: '¿Salvasteis la sangre? Pues ahora inundaré los riñones. ¡La toxina X-99 de desecho atascará las nefronas para que Carlos se envenene con su propia urea residual!'",
+      "La concentración de ácidos excretores se está elevando debido al sabotaje químico de la toxina.",
+      "Activando escudos impermeables... ¡Al abordaje del Sistema Excretor!"
+    ],
+    postNivel4: [
+      "¡Sistema Excretor limpio! La Neurotoxina X-99 ruge con rabia líquida: '¡Malparidos! Me refugiaré en el armazón físico de Carlos. ¡Pudriré el calcio de sus huesos y paralizaré las proteínas de sus músculos con mi virus X-99!'",
+      "¡Alerta de trauma mecánico! X-99 está debilitando los osteoblastos del aparato locomotor.",
+      "Cambiando el chasis de la nave a modo cinético... ¡Entrando al tejido óseo y muscular!"
+    ],
+    postNivel5: [
+      "¡Aparato Locomotor salvado! X-99 lanza su último ataque en este cuerpo: '¡Basta! Si este espécimen va a sobrevivir, al menos me aseguraré de corromper su gónada reproductiva. ¡Destruiré los espermatozoides de Carlos con radiación X-99!'",
+      "¡Máxima prioridad! Debemos limpiar los conductos seminíferos masculinos antes de que la toxina mutante destruya las células germinales haploides.",
+      "Cargando inyectores definitivos... ¡Entrando al Aparato Reproductor Masculino!"
+    ],
+    postNivel6: [
+      "💥 ¡ALERTA DE TRANSFERENCIA ADVERSARIA! Al ser derrotada en el aparato masculino de Carlos, la Neurotoxina X-99 ejecutó un salto cuántico. ¡Ha escapado por completo del cuerpo de Carlos!",
+      "La Neurotoxina X-99 reaparece con una voz distorsionada: '¡Ja, ja, ja! He tomado el control del Sistema Nervioso de Elena. Voy a derretir sus neuronas. ¡Y vuestras patéticas 5 vidas no bastarán!'",
+      "¡Atención tripulación! Se activa la **PARTE 2: LA SECUELA SECRETA**. La nave recibe una actualización termo-química: ¡**MEJORA DE BLINDAJE A 6 VIDAS MÁXIMAS**! Iniciando persecución en el encéfalo de Elena."
+    ],
+    postNivel7: [
+      "¡Sistema Nervioso de Elena estabilizado! X-99 brama desde las sombras: '¡Imposible! Pero no podréis detener mis hormonas. He viajado al Sistema Endocrino de Elena. ¡Colapsaré su metabolismo por completo!'",
+      "Las hormonas de Elena se están desregulando de forma crítica por culpa de los compuestos de X-99.",
+      "Sincronizando los sensores químicos de la nave... ¡Inmersión en el Sistema Endocrino!"
+    ],
+    postNivel8: [
+      "¡Sistema Endocrino purificado! La Neurotoxina X-99 grita desquiciada: '¡Me he atrincherado en el Aparato Reproductor Femenino de Elena! Sabotearé el ciclo menstrual y destruiré sus óvulos maduros!'",
+      "¡Es el clímax reproductivo! La toxina X-99 está atacando las hormonas LH y FSH y las paredes del útero de Elena.",
+      "¡Potencia de fuego de antídoto al 1000%! ¡Entrando al Aparato Reproductor Femenino!"
+    ],
+    postNivel9: [
+      "¡Aparato Reproductor salvado! Pero X-99 muta de nuevo: '¡No podréis purificar mi veneno si apago el sistema de defensa! Me infiltro en el Sistema Inmunitario de Elena. ¡Voy a devorar sus linfocitos y leucocitos!'",
+      "¡Alerta de inmunodeficiencia inducida! X-99 está atacando los ganglios y el bazo de Elena.",
+      "Cargando escudos de reconocimiento celular... ¡Entrando al Sistema Inmunitario!"
+    ],
+    postNivel10: [
+      "¡Sistema Inmunitario liberado! X-99 huye a su última fortaleza profunda: '¡Malditos! Inundaré el equilibrio osmótico de Elena, alterando los electrolitos plasmáticos en su sistema renal avanzado hasta que colapse!'"
+    ]
+  };
+
+  const bancoPreguntasOriginal = {
+    nivel1: [
+      { lugar: "Entrada Bucal", historia: "La Neurotoxina X-99 bloquea la boca. '¡Secaré la saliva!'", emoji: "👅", q: "¿Qué tipo de estructuras anatómicas son las Glándulas Salivales, el Hígado y el Páncreas?", ops: ["Glándulas Anexas que secretan jugos", "Órganos principales del tubo", "Unidades funcionales gaseosas", "Vías de excreción externa"], ans: 0, desc: "Son glándulas anexas que secretan sustancias químicas esenciales para la degradación de los alimentos." },
+      { lugar: "Cámara del Estómago", historia: "X-99 altera los jugos gástricos. '¡Perforaré las paredes con puro ácido!'", emoji: "🥣", q: "¿Cómo se llama la masa semilíquida ácida que se forma dentro del estómago?", ops: ["Quilo balanceado", "Bolo secundario", "Quimo", "Jugo intestinal"], ans: 2, desc: "El bolo alimenticio mezclado con los jugos ácidos del estómago se transforma en quimo." },
+      { lugar: "Intersección Duodenal", historia: "X-99 sabotea el páncreas.", emoji: "🏭", q: "¿Qué fluido vierte el Páncreas al duodeno para la digestión química?", ops: ["Saliva espesa", "Jugo pancreático", "Bilis hepática", "Ácido clorhídrico"], ans: 1, desc: "El páncreas aporta el jugo pancreático, cargado de enzimas para romper macromoléculas." },
+      { lugar: "Paredes del Intestino Delgado", historia: "X-99 recubre las microvellosidades.", emoji: "🧪", q: "¿En qué consiste la función biológica de ABSORCIÓN intestinal?", ops: ["Trituración mecánica de partículas", "Paso de nutrientes digeridos a la sangre", "Expulsión de materia fecal", "Captación pulmonar de aire"], ans: 1, desc: "La absorción traslada las moléculas de nutrientes desde la luz del intestino hacia el torrente sanguíneo." },
+      { lugar: "Conducto del Intestino Grueso", historia: "X-99 absorbe los líquidos de golpe.", emoji: "💧", q: "¿Qué elemento vital recupera principalmente el Intestino Grueso?", ops: ["Proteínas de alto peso", "Oxígeno y dióxido", "Agua y sales minerales", "Ácidos gástricos sobrantes"], ans: 2, desc: "El intestino grueso reabsorbe agua y electrolitos, compactando los desechos orgánicos." },
+      { lugar: "Fisiología de la Bilis", historia: "X-99 bloquea el conducto biliar proveniente del hígado.", emoji: "🟢", q: "¿Cuál es la función principal de la bilis secretada por el hígado en el intestino?", ops: ["Digerir almidones duros", "Emulsionar las grasas para facilitar su digestión", "Secretar ácido clorhídrico", "Absorber la vitamina B12"], ans: 1, desc: "La bilis emulsiona las grasas (las rompe en gotas pequeñas) para que las lipasas actúen adecuadamente." },
+      { lugar: "Esfínter de Salida", historia: "X-99 intenta paralizar el recto.", emoji: "🗑️", q: "¿Cómo se denomina el proceso final de expulsión de los desechos no digeridos?", ops: ["Ingestión inicial", "Anabolismo", "Egestión o defecación", "Segmentación motora"], ans: 2, desc: "La egestión es la expulsión de los residuos fecales fuera del tubo digestivo." }
+    ],
+    nivel2: [
+      { lugar: "Fosas Nasales", historia: "X-99 inflama el moco nasal.", emoji: "👃", q: "¿Cuáles son las funciones principales de las fosas nasales?", ops: ["Absorber carbohidratos", "Filtrar, calentar y humedecer el aire", "Almacenar dióxido residual", "Secretar pepsinógeno"], ans: 1, desc: "La antesala respiratoria limpia de impurezas, calienta y humedece el aire inspirado." },
+      { lugar: "Tubo de la Tráquea", historia: "X-99 ablanda los anillos de cartílago.", emoji: "🧣", q: "¿Qué conducto cartilaginoso lleva el aire desde la laringe hacia los bronquios?", ops: ["El esófago", "La Tráquea", "La faringe", "La uretra"], ans: 1, desc: "La tráquea es el tubo reconstruido con anillos cartilaginosos que conduce el aire al árbol bronquial." },
+      { lugar: "Músculos del Tórax", historia: "X-99 paraliza el diafragma.", emoji: "🌬️", q: "¿Qué action ocurre cuando el tórax se expande para permitir la entrada de aire atmosférico?", ops: ["Expiración pasiva", "Inspiración", "Hematosis tisular", "Filtración renal"], ans: 1, desc: "La inspiración contrae el diafragma y los intercostales, expandiendo los pulmones para que entre aire." },
+      { lugar: "Sacos Alvéolares", historia: "X-99 recubre las membranas alveolo-capilares.", emoji: "🔬", q: "¿Cómo se llama el intercambio de gases entre los alvéolos y la sangre?", ops: ["Digestión", "Hematosis", "Absorción", "Miosis"], ans: 1, desc: "La hematosis es el intercambio de gases: el O2 entra a la sangre y el CO2 pasa al alvéolo para ser expulsado." },
+      { lugar: "Epiglotis de Control", historia: "X-99 ataca la válvula laringofaringea.", emoji: "👅", q: "¿Qué estructura cartilaginosa impide que los alimentos entren en la vía respiratoria al tragar?", ops: ["La glotis interna", "La Epiglotis", "La úvula", "El cartílago tiroides"], ans: 1, desc: "La epiglotis se dobla hacia atrás para cubrir la laringe durante la deglución, desviando el bolo al esófago." },
+      { lugar: "Flujo Sanguíneo Pulmonar", historia: "X-99 intenta acidificar la sangre atrapando gases.", emoji: "⚖️", q: "Además de oxigenar, ¿qué parámetro regula la respiración al eliminar el CO2?", ops: ["El flujo de bilis", "La producción de enzimas", "El equilibrio del pH sanguíneo", "La absorción de grasas"], ans: 2, desc: "Al eliminar el dióxido de carbono, se previene la acumulación de ácido carbónico, manteniendo el pH estable." },
+      { lugar: "Fase de Expulsión Torácica", historia: "X-99 intenta bloquear la salida del aire usado.", emoji: "😤", q: "¿Qué fase mecánica relaja los músculos respiratorios para expulsar el aire?", ops: ["Inspiración forzada", "Expiración", "Hematosis elástica", "Difusión capilar"], ans: 1, desc: "La expiración es el proceso pasivo de relajación muscular que expulsa el aire con alto contenido de CO2." }
+    ],
+    nivel3: [
+      { lugar: "Miocardio de Carlos", historia: "X-99 sabotea el marcapasos natural.", emoji: "❤️", q: "¿Qué tipo de órgano es el Corazón dentro del sistema cardiovascular?", ops: ["Un vaso elástico pasivo", "Un órgano muscular hueco que bombea sangre", "Una glándula exocrina", "Un filtro de orina"], ans: 1, desc: "El corazón es un órgano muscular hueco especializado en impulsar la sangre continuamente por todo el organismo." },
+      { lugar: "Arterias Salientes", historia: "X-99 debilita las fibras elásticas arteriales.", emoji: "🚀", q: "¿Qué vasos sanguíneos llevan la sangre oxigenada desde el corazón a los tejidos?", ops: ["Las venas", "Los capilares", "Las arterias", "Los linfáticos"], ans: 2, desc: "Las arterias poseen paredes gruesas y elásticas para soportar y transportar la sangre a altas presiones." },
+      { lugar: "Red de Capilares", historia: "X-99 obstruye las micro-mallas capilares.", emoji: "🕸️", q: "¿Cómo se denominan los vasos ultra delgados donde ocurre el intercambio de nutrientes con las células?", ops: ["Arterias mayores", "Capilares", "Venas con válvulas", "Conductos de Wolff"], ans: 1, desc: "Los capilares tienen una sola capa endotelial, permitiendo que las moléculas difundan fácilmente a las células." },
+      { lugar: "Eritrocitos de Carlos", historia: "X-99 ataca el núcleo químico de la sangre.", emoji: "🧲", q: "¿Qué proteína de los glóbulos rojos capta el oxígeno en los pulmones?", ops: ["Insulina", "Hemoglobina", "Pepsinógeno", "Miosina"], ans: 1, desc: "La hemoglobina es la metaloproteína que contiene hierro y transporta las moléculas de O2." },
+      { lugar: "Linfocitos y Defensa", historia: "X-99 se cruza con las células inmunes circulantes.", emoji: "🛡️", q: "¿Qué tipo de células sanguíneas se encargan principalmente de la defensa contra patógenos?", ops: ["Plaquetas mecánicas", "Glóbulos blancos (Leucocitos)", "Eritrocitos cargados", "Osteocitos densos"], ans: 1, desc: "Los leucocitos o glóbulos blancos forman el sistema de defensa inmunitario que combate infecciones en el torrente sanguíneo." },
+      { lugar: "Río Plasmático", historia: "X-99 disuelve los factores de coagulación.", emoji: "🩸", q: "¿Cuáles son los componentes celulares sólidos en suspensión dentro del plasma?", ops: ["Agua, sales and glucosa", "Glóbulos rojos, blancos y plaquetas", "Bilis, acids y moco", "Urea y creatinina"], ans: 1, desc: "Los elements figurados de la sangre son los eritrocitos, leucocitos y las plaquetas." },
+      { lugar: "Venas de Retorno", historia: "X-99 daña las válvulas semilunares.", emoji: "↩️", q: "¿Qué vasos sanguíneos conducen la sangre de regreso al corazón y poseen válvulas?", ops: ["Las arterias", "Los capilares", "Las venas", "Los uréteres"], ans: 2, desc: "Las venas retornan la sangre desoxigenada y contienen válvulas que impiden el reflujo debido a la gravedad." }
+    ],
+    nivel4: [
+      { lugar: "Filtros Renales", historia: "X-99 bloquea los canales de filtración.", emoji: "🧪", q: "¿Qué órganos actúan como los filtros principales del plasma para formar la orina?", ops: ["Los uréteres", "Los Riñones", "La vejiga", "Las glándulas suprarrenales"], ans: 1, desc: "Los riñones filtran la sangre de manera constante, removiendo toxinas metabólicas solubles." },
+      { lugar: "Corteza de la Nefrona", historia: "X-99 perfora los glomérulos.", emoji: "🧬", q: "¿Cuál es la unidad estructural y funcional microscópica del riñón?", ops: ["El alvéolo", "La Nefrona", "La vellosidad", "La neurona"], ans: 1, desc: "La nefrona es la encargada de purificar la sangre a través de procesos de filtración, reabsorción y secreción." },
+      { lugar: "Análisis Químico de Toxinas", historia: "X-99 bloquea la eliminación de nitrógeno.", emoji: "☣️", q: "¿Cuál es el principal residuo nitrogenado tóxico que se elimina en la orina?", ops: ["Oxígeno gaseoso", "La Urea", "Ácido gástrico", "Glucosa pura"], ans: 1, desc: "La urea es el producto de desecho del metabolismo de aminoácidos que el cuerpo debe expulsar." },
+      { lugar: "Glomérulo Renal", historia: "X-99 intenta taponar la cápsula de Bowman.", emoji: "🕸️", q: "¿Cuál es el primer paso en la formación de la orina que ocurre en el glomérulo?", ops: ["Secreción tubular", "Filtración glomerular", "Reabsorción de glucosa", "Egestión total"], ans: 1, desc: "La filtración glomerular permite el paso de agua y pequeños solutos desde la sangre hacia el interior de la nefrona." },
+      { lugar: "Tubos Uréteres", historia: "X-99 estruja las vías de descenso.", emoji: "🕳️", q: "¿Qué conductos transportan la orina desde los riñones hasta la vejiga?", ops: ["Las arterias renales", "Los Uréteres", "La uretra", "Los bronquios"], ans: 1, desc: "Los uréteres conducen la orina formada desde la pelvis renal hacia el compartimento vesical." },
+      { lugar: "Vejiga Urinaria", historia: "X-99 tensa las paredes del saco.", emoji: "🗑️", q: "¿Qué tipo de estructura funciona como reservorio temporal de la orina?", ops: ["La uretra terminal", "La Vejiga Urinaria", "El duodeno digestivo", "El bazo hialino"], ans: 1, desc: "La vejiga es un órgano muscular hueco y elástico que almacena la orina hasta la micción." },
+      { lugar: "Uretra de Salida", historia: "X-99 infecta el conducto final.", emoji: "💧", q: "¿Cómo se llama el tubo definitivo que evacua la orina hacia el exterior?", ops: ["El uréter", "La Uretra", "El conducto colédoco", "La vena cava"], ans: 1, desc: "La uretra es el conducto final que drena la orina depositada en la vejiga hacia afuera del cuerpo." }
+    ],
+    nivel5: [
+      { lugar: "Tejido Óseo Compacto", historia: "X-99 carcome las trabéculas.", emoji: "🦴", q: "¿Qué funciones vitales cumple el Sistema Óseo?", ops: ["Mecánica digestiva y respiración", "Sostén, protección de órganos nobles y hematopoyesis", "Filtración plasmática de urea", "Síntesis de insulina y bilis"], ans: 1, desc: "El esqueleto da soporte estructural, protege el encéfalo y las vísceras, y produce células sanguíneas en la médula." },
+      { lugar: "Matriz Celular del Hueso", historia: "X-99 secuestra los minerales.", emoji: "🔬", q: "¿Qué células se encargan de la síntesis de la matriz y mineralización del hueso?", ops: ["Los Osteoblastos", "Los Miocitos", "Los Condrocitos", "Los Leucocitos"], ans: 0, desc: "Los osteoblastos construyen matriz ósea nueva, mientras que los osteoclastos degradan el tejido viejo." },
+      { lugar: "Remodelación Ósea", historia: "X-99 acelera la degradación del calcio óseo.", emoji: "⛏️", q: "¿Qué células se encargan de reabsorber y degradar la matriz ósea envejecida?", ops: ["Los osteoblastos", "Los Osteoclastos", "Los miocitos", "Los eritrocitos"], ans: 1, desc: "Los osteoclastos fagocitan y disuelven el tejido óseo viejo o dañado para permitir su renovación constante." },
+      { lugar: "Cápsula Sinovial", historia: "X-99 elimina los lubricantes orgánicos.", emoji: "🦵", q: "¿Qué elementos evitan el desgaste por fricción entre los extremos óseos?", ops: ["Ácidos estomacales y moco", "El Cartílago articular y el Líquido Sinovial", "Los tendones rígidos", "Los capilares y nervios"], ans: 1, desc: "El cartílago hialino amortigua los impactos y el líquido sinovial lubrica las uniones óseas móviles." },
+      { lugar: "Fibras de Colágeno Conectivo", historia: "X-99 desgarra los amarres.", emoji: "⛓️", q: "¿Qué estructuras conectan músculo a hueso, y qué estructuras unen hueso con hueso?", ops: ["Arterias y venas", "Tendones (músculo-hueso) y Ligamentos (hueso-hueso)", "Alvéolos y nefronas", "Miofibrillas y osteocitos"], ans: 1, desc: "Los tendones fijan los músculos a las palancas óseas y los ligamentos sujetan las piezas del esqueleto entre sí." },
+      { lugar: "Miofibrillas de Actina y Miosina", historia: "X-99 bloquea los canales de calcio.", emoji: "💪", q: "¿Qué proteínas moleculares interactúan directamente para lograr la contracción?", ops: ["Hemoglobina y albúmina", "Actina y Miosina", "Insulina y glucagón", "Urea y queratina"], ans: 1, desc: "El deslizamiento de los filamentos de actina sobre los de miosina es la base molecular del movimiento muscular." },
+      { lugar: "Músculo Esquelético Biceps", historia: "X-99 sabotea la placa motora.", emoji: "🏃", q: "¿Qué tipo de tejido muscular compone los elementos mecánicos de control voluntario?", ops: ["Tejido muscular liso", "Tejido muscular estriado esquelético", "Tejido muscular cardíaco", "Tejido conectivo laxo"], ans: 1, desc: "Los músculos esqueléticos están compuestos de tejido muscular estriado y responden al control consciente voluntario." }
+    ],
+    nivel6: [
+      { lugar: "Túbulos Seminíferos de Carlos", historia: "X-99 infecta el testículo.", emoji: "🚹", q: "¿En qué órganos masculinos se fabrican los espermatozoides y la testosterona?", ops: ["Vesículas seminales", "Próstata glandular", "Testículos", "Conductos eyaculadores"], ans: 2, desc: "Los testículos son las gónadas masculinas que realizan la espermatogénesis y secretan andrógenos." },
+      { lugar: "Conducto del Epidídimo", historia: "X-99 frena el flujo seminal.", emoji: "🧬", q: "¿Qué estructura almacena y le brinda movilidad funcional a los espermatozoides?", ops: ["El conducto deferente", "La uretra prostática", "El Epidídimo", "El útero muscular"], ans: 2, desc: "En el epidídimo los espermatozoides completan su maduración, adquiriendo motilidad propia." },
+      { lugar: "Glándulas Accesorias", historia: "X-99 altera el pH del semen.", emoji: "🧪", q: "¿Qué glándulas secretan el líquido alcalino protector que nutre a los espermatozoides?", ops: ["Los riñones y nefronas", "Las vesículas seminales y la próstata", "Los ovarios y folículos", "Las glándulas salivales"], ans: 1, desc: "Las vesículas seminales y la próstata producen fluidos alcalinos que forman el semen, protegiendo las células." },
+      { lugar: "Conducto Deferente", historia: "X-99 obstruye las autopistas espermáticas.", emoji: "✂️", q: "¿Qué canales de músculo liso impulsan a los espermatozoides desde el epidídimo hacia la uretra?", ops: ["Los uréteres", "Los conductos deferentes", "Las trompas de Falopio", "Los bronquiolos"], ans: 1, desc: "Los conductos deferentes sirven de vía de transporte rápido para los espermatozoides maduros." },
+      { lugar: "Células de Sertoli", historia: "X-99 ataca las células de soporte intratubular.", emoji: "🧫", q: "¿Qué células dentro de los túbulos seminíferos nutren y protegen a las células germinales en desarrollo?", ops: ["Células de Leydig", "Células de Sertoli", "Osteoclastos de soporte", "Linfocitos T"], ans: 1, desc: "Las células de Sertoli brindan sostén estructural, nutrición y regulación a los espermatozoides durante su desarrollo." },
+      { lugar: "Uretra Compartida", historia: "X-99 sabotea la válvula de control urinario/reproductor.", emoji: "🚽", q: "¿Qué conducto masculino cumple la doble función de evacuar tanto el sistema urinario como el reproductor?", ops: ["El uréter", "La Uretra", "El conducto biliar", "El epidídimo"], ans: 1, desc: "A diferencia del sistema femenino, la uretra masculina transporta tanto la orina como el semen de forma alternada." },
+      { lugar: "Análisis Haploide de Espermatozoides", historia: "X-99 ataca las cabezas celulares.", emoji: "👑", q: "¿Cuántos cromosomas contiene un espermatozoide humano sano?", ops: ["46 cromosomas diploides", "12 cromosomas mitóticos", "23 cromosomas haploides", "99 filamentos dobles"], ans: 2, desc: "Los espermatozoides son células sexuales haploides (n=23) listas para la fecundación." }
+    ],
+    nivel7: [
+      { lugar: "Tejido Nervioso - La Neurona", historia: "¡SECUELA ACTIVADA! X-99 ataca el cerebro de Elena.", emoji: "🧠", q: "¿Cuál es la unidad estructural y funcional del sistema nervioso?", ops: ["Los miocitos", "Las Neuronas", "Los osteocitos", "Las nefronas"], ans: 1, desc: "La neurona es la célula altamente especializada que genera, procesa y transmite los impulsos nerviosos." },
+      { lugar: "Anatomía de la Neurona de Elena", historia: "X-99 corta los cables neuronales.", emoji: "🧬", q: "¿Cuáles son las tres partes principales de una neurona?", ops: ["Cuerpo celular (Soma), Dendritas y Axón", "Glomérulo, asa y tubo colector", "Matriz, periostio y epífisis", "Cabeza, cuello y flagelo"], ans: 0, desc: "Una neurona se compone de soma (cuerpo central), dendritas (receptores) y axón (conductor de salida)." },
+      { lugar: "Sistema Nervioso Central (SNC)", historia: "X-99 avanza hacia el encéfalo.", emoji: "🛡️", q: "¿Qué órganos fundamentales componen el Sistema Nervioso Central (SNC)?", ops: ["Los nervios craneales", "El Encéfalo y la Médula Espinal", "El corazón y los pulmones", "La hipófisis y los ovarios"], ans: 1, desc: "El Sistema Nervioso Central está formado por el encéfalo y la médula espinal, integrando toda la información corporal." },
+      { lugar: "Vaina de Mielina", historia: "X-99 disuelve el recubrimiento graso del axón.", emoji: "⚡", q: "¿Qué sustancia aislante recubre los axones para acelerar la velocidad del impulso eléctrico?", ops: ["Moco sinovial", "Mielina", "Queratina densa", "Hemoglobina plasmática"], ans: 1, desc: "La vaina de mielina es una capa lipídica que actúa como aislante, permitiendo la conducción saltatoria y veloz de las señales." },
+      { lugar: "Sistema Nervioso Periférico (SNP)", historia: "X-99 infecta las ramificaciones nerviosas.", emoji: "⚡", q: "¿Cómo está formado principalmente el Sistema Nervioso Periférico (SNP)?", ops: ["Por el estómago y los intestinos", "Por una red de Nervios y Ganglios que recorren todo el organismo", "Solo por el cerebelo", "Por los huesos planos"], ans: 1, desc: "El SNP está compuesto por los nervios que ramifican desde el eje central para llevar información sensitiva y motora." },
+      { lugar: "La Sinapsis Química", historia: "X-99 absorbe los neurotransmisores.", emoji: "💥", q: "¿Cómo se llama la zona de comunicación y transferencia de impulsos entre una neurona y otra?", ops: ["Hematosis alveolar", "La Sinapsis", "Meiosis germinal", "Implantación uterina"], ans: 1, desc: "La sinapsis es la unión especializada a través de la cual las neuronas se comunican utilizando neurotransmisores." },
+      { lugar: "Sistemas Autónomos", historia: "X-99 intenta alterar las respuestas de alerta de Elena.", emoji: "⚖️", q: "¿Qué dos divisiones del sistema autónomo controlan respectivamente las respuestas de 'Alerta/Huida' y 'Reposo'?", ops: ["Aparato Digestivo and Excretor", "Sistema Simpático y Sistema Parasimpático", "Aparato Esquelético y Locomotor", "Células Haploides y Diploides"], ans: 1, desc: "El sistema simpático activa al organismo ante el estrés (huida), y el parasimpático induce estados de reposo y relajación." }
+    ],
+    nivel8: [
+      { lugar: "Glándulas Endocrinas de Elena", historia: "X-99 infiltra el torrente sanguíneo hormonal.", emoji: "🧬", q: "¿Qué tipo de sustancias secretan las glándulas del Sistema Endocrino directamente a la sangre?", ops: ["Jugos digestivos y moco", "Hormonas", "Orina y urea residual", "Líquido sinovial"], ans: 1, desc: "El sistema endocrino produce hormonas, compuestos químicos que actúan como mensajeros regulando órganos a distancia." },
+      { lugar: "El Eje Central - Hipófisis", historia: "X-99 se adhiere a la base del cerebro.", emoji: "👑", q: "¿Qué glándula situada en la base del cerebro coordina la actividad de la mayoría de las demás glándulas?", ops: ["El tiroides cervical", "La Hipófisis (o Pituitaria)", "Las glándulas suprarrenales", "El páncreas exocrino"], ans: 1, desc: "La hipófisis es considerada la glándula maestra, pues secreta hormonas trópicas que dirigen otras glándulas." },
+      { lugar: "Regulación Metabólica - Tiroides", historia: "X-99 ataca el cuello de Elena.", emoji: "🦋", q: "¿Qué glándula endocrina en el cuello regula la velocidad del metabolismo celular mediante la tiroxina?", ops: ["Las gónadas sexuales", "El Tiroides", "El timo linfoide", "Las nefronas renales"], ans: 1, desc: "La glándula tiroides secreta hormonas (T3 y T4) que controlan el ritmo del metabolismo general." },
+      { lugar: "Hormona del Crecimiento", historia: "X-99 bloquea la secreción glandular anterior.", emoji: "📏", q: "¿Qué hormona producida por la adenohipófisis estimula el alargamiento de los huesos y la síntesis proteica?", ops: ["Insulina reguladora", "Somatotropina (Hormona del Crecimiento o GH)", "Tiroxina metabólica", "Cortisol"], ans: 1, desc: "La somatotropina (GH) promueve el crecimiento de tejidos corporales, huesos y cartílagos." },
+      { lugar: "Control de Glucosa", historia: "X-99 intenta destruir los islotes celulares del páncreas.", emoji: "🍬", q: "¿Qué hormonas vitales secretan los islotes endocrinos del Páncreas para regular la glucosa?", ops: ["Bilis y jugo gástrico", "Insulina y Glucagón", "Testosterona y progesterona", "Adrenalina y tiroxina"], ans: 1, desc: "El páncreas endocrino secreta insulina (que disminuye la glucosa) y glucagón (que la eleva)." },
+      { lugar: "Glándulas Suprarrenales", historia: "X-99 inyecta estrés falso.", emoji: "⚡", q: "¿Qué glándulas ubicadas sobre los riñones producen adrenalina y cortisol?", ops: ["Las glándulas salivales", "Las Glándulas Suprarrenales", "Los ovarios gónadas", "La hipófisis posterior"], ans: 1, desc: "Las glándulas suprarrenales secretan adrenalina y hormonas esteroideas encargadas de la adaptación al estrés." },
+      { lugar: "Mecanismo Feedback", historia: "X-99 rompe los sensores biológicos.", emoji: "🔄", q: "¿Cómo se denomina el mecanismo de autorregulación donde la concentración de una hormona frena su propia producción?", ops: ["Absorción vellosa", "Retroalimentación Negativa (Feedback negativo)", "Parada estomacal", "Egestión celular"], ans: 1, desc: "La retroalimentación negativa permite la homeostasis, inhibiendo la secreción cuando los niveles son óptimos." }
+    ],
+    nivel9: [
+      { lugar: "Gónadas Femeninas de Elena", historia: "X-99 invade los ovarios de Elena.", emoji: "🚺", q: "¿Qué órganos albergan los óvulos maduros y sintetizan estrógenos y progesterona?", ops: ["Las trompas de Falopio", "Los Ovarios", "El útero muscular", "La uretra anterior"], ans: 1, desc: "Los ovarios son las gónadas femeninas, responsables de la ovogénesis periódica y de secretar esteroides sexuales." },
+      { lugar: "Trompas de Falopio de Elena", historia: "X-99 patrulla las trompas.", emoji: "🛣️", q: "¿Qué conductos transportan el óvulo liberado y representan el sitio común de la FECUNDACIÓN?", ops: ["Los uréteres excretores", "Las Trompas de Falopio", "Los conductos deferentes", "El cuello uterino"], ans: 1, desc: "Las trompas de Falopio comunican los ovarios con el útero y es el lugar exacto donde ocurre la fecundación." },
+      { lugar: "El Útero (Matriz)", historia: "X-99 se adhiere al tejido mucoso interno.", emoji: "🤰", q: "¿Cómo se llama la capa interna mucosa del útero que se prepara para la implantación?", ops: ["Miometrio muscular", "El Endometrio", "Perimetrio fibroso", "El canal vaginal"], ans: 1, desc: "El endometrio es la capa interna del útero que prolifera cada mes para recibir al óvulo fecundado." },
+      { lugar: "El Ciclo Menstrual - ... Folicular", historia: "X-99 altera las hormonas FSH.", emoji: "📅", q: "¿Qué hormona adenohipofisiaria estimula el crecimiento de los folículos ováricos?", ops: ["Progesterona lútea", "Hormona Foliculoestimulante (FSH)", "Testosterona", "Hormona del crecimiento"], ans: 1, desc: "La FSH induce la maduración folicular en el ovario durante la fase estrogénica del ciclo." },
+      { lugar: "La Ovulación de Elena", historia: "X-99 intenta bloquear la salida del óvulo.", emoji: "🥚", q: "¿Qué pico hormonal agudo provoca la ruptura del folículo maduro y la liberación del óvulo cerca del día 14?", ops: ["Insulina", "Hormona Luteinizante (LH)", "Tiroxina", "Urea residual"], ans: 1, desc: "Un incremento drástico en la concentración de la hormona luteinizante (LH) es el gatillo que desencadena la ovulación." },
+      { lugar: "Cuerpo Lúteo y Progesterona", historia: "X-99 ataca los remanentes foliculares post-ovulatorios.", emoji: "🟡", q: "¿Qué estructura se forma en el ovario tras la ovulación para secretar altos niveles de progesterona?", ops: ["Folículo primario", "Cuerpo Lúteo (o cuerpo amarillo)", "Endometrio basal", "Acrosoma celular"], ans: 1, desc: "El cuerpo lúteo secreta progesterona para mantener el endometrio engrosado y listo para una posible gestación." },
+      { lugar: "La Fase Lútea y Menstruación", historia: "X-99 colapsa el sistema uterino terminal.", emoji: "👑", q: "Si no ocurre fecundación, ¿qué suceso sucede debido a la caída de hormonas al final del ciclo?", ops: ["La ovulación doble", "La Menstruación (desprendimiento endometrial)", "La espermatogénesis activa", "La egestión gástrica"], ans: 1, desc: "Al declinar el cuerpo lúteo, bajan las hormonas ováricas, lo que causa la descamación del endometrio en forma de menstruación." }
+    ],
+    nivel10: [
+      { lugar: "Órganos Linfáticos Primarios", historia: "¡NIVEL NUEVO! X-99 entra a los cuarteles inmunes.", emoji: "🛡️", q: "¿En qué estructuras biológicas maduran los Linfocitos T y B respectivamente?", ops: ["Bazo e hígado", "Timo (Linfocitos T) y Médula Ósea (Linfocitos B)", "Estómago y páncreas", "Riñones y nefronas"], ans: 1, desc: "Los linfocitos B maduran en la médula ósea y los linfocitos T migran al timo para completar su maduración." },
+      { lugar: "Glóbulos Blancos Fagocitarios", historia: "X-99 intenta esquivar las patrullas devoradoras.", emoji: "👾", q: "¿Qué tipos de leucocitos actúan devorando patógenos mediante fagocitosis celular masiva?", ops: ["Eritrocitos y plaquetas", "Macrófagos y Neutrófilos", "Osteoblastos y miocitos", "Neuronas aferentes"], ans: 1, desc: "Los macrófagos y neutrófilos patrullan los tejidos fagocitando y destruyendo microorganismos invasores." },
+      { lugar: "Respuesta Inmune Adaptativa", historia: "X-99 sabotea la producción de glicoproteínas de defensa.", emoji: "🏹", q: "¿Qué moléculas altamente específicas producen los Linfocitos B (células plasmáticas) para neutralizar antígenos?", ops: ["Hormonas tiroideas", "Anticuerpos (Inmunoglobulinas)", "Enzimas amilasas", "Factores plaquetarios"], ans: 1, desc: "Los anticuerpos se unen de forma específica a los antígenos del patógeno para marcarlo o destruirlo." },
+      { lugar: "Ganglios Linfáticos de Elena", historia: "X-99 inflama los filtros inmunes del cuello.", emoji: "🧎‍♀️", q: "¿Qué función principal cumplen los Ganglios Linfáticos distribuidos en la red linfática?", ops: ["Bombear plasma a presión", "Filtrar la linfa y albergar cúmulos de linfocitos", "Secretar jugo biliar", "Sintetizar calcio óseo"], ans: 1, desc: "Los ganglios actúan como filtros de seguridad de la linfa, atrapando partículas extrañas y activando la respuesta inmune." },
+      { lugar: "El Bazo Lindo", historia: "X-99 infecta el cuadrante superior izquierdo abdominal.", emoji: "🛡️", q: "¿Qué órgano linfoide secundario destruye eritrocitos viejos y filtra la sangre completa?", ops: ["El timo torácico", "El Bazo", "El páncreas", "La vesícula biliar"], ans: 1, desc: "El bazo filtra la sangre, destruyendo los glóbulos rojos caducados (hemocateresis) y almacenando linfocitos." },
+      { lugar: "Inmunidad Pasiva vs Activa", historia: "X-99 intenta alterar la memoria protectora de Elena.", emoji: "💉", q: "¿Cómo adquiere un individuo Inmunidad Artificial Activa de largo plazo?", ops: ["Recibiendo suero con anticuerpos prestados", "A través de la aplicación de Vacunas", "Por difusión de gases capilares", "Consumiendo jugos cítricos"], ans: 1, desc: "Las vacunas introducen antígenos atenuados o inactivados para forzar al organismo a crear anticuerpos y células de memoria propia." },
+      { lugar: "Barreras Primarias Innatas", historia: "X-99 intenta disolver las defensas mecánicas externas.", emoji: "🛡️", q: "¿Cuáles se consideran las barreras biológicas mecánicas y químicas primarias del cuerpo humano?", ops: ["Los linfocitos T y anticuerpos IgG", "La Piel, las Lágrimas, el Ácido Gástrico y las Mucosas", "Los tendones y el tejido óseo", "La uretra y la vejiga"], ans: 1, desc: "La piel intacta, el moco, las lágrimas con lisozima y los ácidos digestivos detienen la entrada de invasores de forma inespecífica." }
+    ],
+    nivel11: [
+      { lugar: "Equilibrio Osmótico Renal", historia: "¡BATALLA TERMINAL ABSOLUTA! X-99 ataca la homeostasis.", emoji: "🧪", q: "¿Qué significa el concepto de HOMEOSTASIS que regula el sistema urinario avanzado?", ops: ["La destrucción de células óseas", "El mantenimiento del equilibrio interno constante de fluidos y solutos", "La digestión de macromoléculas", "La conducción de impulsos nerviosos"], ans: 1, desc: "La homeostasis es la autorregulación que mantiene estables las variables físicas y químicas del medio interno." },
+      { lugar: "Hormona Antidiurética (ADH)", historia: "X-99 sabotea los canales acuosos en los tubos colectores.", emoji: "💧", q: "¿Qué hormona liberada por la neurohipófisis estimula la reabsorción masiva de agua en los tubos colectores del riñón?", ops: ["Insulina", "Hormona Antidiurética (ADH o Vasopresina)", "Testosterona", "Tiroxina"], ans: 1, desc: "La ADH abre canales (acuaporinas) en los tubos renales para retener agua en la sangre, concentrando la orina." },
+      { lugar: "Control de Sodio y Potasio", historia: "X-99 interfiere con la corteza suprarrenal.", emoji: "🧂", q: "¿Qué hormona mineralocorticoide estimula la reabsorción de Sodio (Na+) y la excreción de Potasio (K+) en los túbulos renales?", ops: ["Glucagón", "Aldosterona", "Hormona del crecimiento", "FSH"], ans: 1, desc: "La aldosterona regula la presión arterial y el volumen sanguíneo controlando la retención de sales en el riñón." },
+      { lugar: "Aparato Yuxtaglomerular", historia: "X-99 altera los sensores de presión arterial renal.", emoji: "⚙️", q: "¿Qué enzima secreta el riñón cuando detecta una caída crítica en la presión arterial o en los niveles de sodio?", ops: ["Pepsina gástrica", "Renina", "Amilasa pancreática", "Bilis"], ans: 1, desc: "La renina activa el sistema renina-angiotensina-aldosterona para elevar la presión y restaurar la homeostasis." },
+      { lugar: "Regulación de pH del Medio Interno", historia: "X-99 intenta acidificar todo el fluido intracelular.", emoji: "⚖️", q: "¿Qué iones maneja activamente el túbulo renal para compensar estados de acidosis o alcalosis en sangre?", ops: ["Iones de Cloro e Hierro", "Iones de Hidrógeno (H+) y Bicarbonato (HCO3-)", "Glucosa y cadenas lipídicas", "Moléculas de urea descompuesta"], ans: 1, desc: "El riñón secreta protones ácidos (H+) y reabsorbe bicarbonato buffer (HCO3-) para estabilizar exactamente el pH de la sangre." },
+      { lugar: "Eritropoyetina Renal (EPO)", historia: "X-99 quiere cortar la producción de sangre desde el riñón.", emoji: "🩸", q: "¿Qué hormona crucial sintetiza el riñón para estimular a la médula ósea a producir nuevos glóbulos rojos?", ops: ["Insulina suprarrenal", "Eritropoyetina (EPO)", "Somatotropina", "LH"], ans: 1, desc: "La eritropoyetina (EPO) es secretada por células renales ante la hipoxia para elevar la masa de eritrocitos circulantes." },
+      { lugar: "Destrucción Atómica de la Toxina", historia: "¡La nave sobrecarga sus inyectores cuánticos sobre los núcleos de la X-99!", emoji: "🏆", q: "¿Cuál es el rango normal de pH de la sangre arterial humana que acabas de salvar?", ops: ["Ácido extremo entre 1.0 y 3.0", "Ligeramente alcalino entre 7.35 y 7.45", "Neutro puro fijo de 5.0", "Básico de 12.0"], ans: 1, desc: "El pH sanguíneo se mantiene estrictamente controlado en un rango estrecho de 7.35 a 7.45 para la supervivencia celular." }
+    ]
+  };
+
+  let nivelActivo = 1;
+  let qIndice = 0;
+  let puntos = 0;
+  let vidas = 5;
+  let vidasMaximas = 5;
+  let desbloqueados = { 1: true, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false, 8: false, 9: false, 10: false, 11: false };
+  let bloqueado = false;
+  let ordenOpcionesMapeado = [];
+
+  function lanzarBloqueHistoria(tipo) {
+    tipoHistoriaModo = tipo;
+    indiceHistoria = 0;
+    
+    if(tipo === "intro") {
+      historiaActualBloque = historiaCampana.introduccion;
+      document.getElementById("titulo-pantalla-historia").innerText = "📡 ARRANQUE DE OPERACIÓN ANATÓMICA";
+      document.getElementById("emoji-pantalla-historia").innerText = "☣️ ⚠️ 🚀";
+    } else {
+      historiaActualBloque = historiaCampana[tipo];
+      document.getElementById("titulo-pantalla-historia").innerText = "🎬 EVENTO CRÍTICO DE LA HISTORIA";
+      document.getElementById("emoji-pantalla-historia").innerText = "☠️ RUN ⚡";
+    }
+
+    document.getElementById("texto-historia-narrativa").innerText = historiaActualBloque[indiceHistoria];
+    document.getElementById("btn-siguiente-historia").innerText = "SIGUIENTE REPORTE ➡️";
+    document.getElementById("pantalla-historia").style.display = "flex";
+    document.getElementById("pantalla-historia").style.opacity = "1";
+  }
+
+  function avanzarHistoria() {
+    indiceHistoria++;
+    if (indiceHistoria < historiaActualBloque.length) {
+      document.getElementById("texto-historia-narrativa").innerText = historiaActualBloque[indiceHistoria];
+      if (indiceHistoria === historiaActualBloque.length - 1) {
+        document.getElementById("btn-siguiente-historia").innerText = "INGRESAR AL MAPA DE CONTROL 🖥️";
+      }
+    } else {
+      saltarHistoriaCompletamente();
+    }
+  }
+
+  function saltarHistoriaCompletamente() {
+    document.getElementById("pantalla-historia").style.opacity = "0";
+    setTimeout(() => {
+      document.getElementById("pantalla-historia").style.display = "none";
+    }, 400);
+  }
+
+  function activarTransicionViaje(nivelDestino, textoPrincipal, textoSecundario, esAvance = false) {
+    const capa = document.getElementById("efecto-viaje");
+    const contenedor = document.getElementById("contenedor-juego");
+    const btnOmitir = document.getElementById("btn-omitir-transicion");
+    
+    if(nivelDestino <= 1) capa.style.background = "radial-gradient(circle, #7c2d12 0%, #1c0500 100%)";
+    else if(nivelDestino === 2) capa.style.background = "radial-gradient(circle, #0369a1 0%, #021424 100%)";
+    else if(nivelDestino === 3) capa.style.background = "radial-gradient(circle, #991b1b 0%, #270505 100%)";
+    else if(nivelDestino === 4) capa.style.background = "radial-gradient(circle, #115e59 0%, #021e1a 100%)";
+    else if(nivelDestino === 5) capa.style.background = "radial-gradient(circle, #78350f 0%, #1c0d02 100%)";
+    else if(nivelDestino === 6) capa.style.background = "radial-gradient(circle, #1e3a8a 0%, #030712 100%)";
+    else if(nivelDestino === 7) capa.style.background = "radial-gradient(circle, #312e81 0%, #020617 100%)";
+    else if(nivelDestino === 8) capa.style.background = "radial-gradient(circle, #581c87 0%, #0f051d 100%)";
+    else if(nivelDestino === 9) capa.style.background = "radial-gradient(circle, #701a75 0%, #140116 100%)";
+    else if(nivelDestino === 10) capa.style.background = "radial-gradient(circle, #065f46 0%, #021a14 100%)";
+    else if(nivelDestino === 11) capa.style.background = "radial-gradient(circle, #1e1b4b 0%, #05021a 100%)";
+    
+    document.getElementById("texto-transicion").innerText = textoPrincipal;
+    document.getElementById("subtexto-transicion").innerText = textoSecundario;
+
+    contenedor.style.animation = "none";
+    void contenedor.offsetWidth; 
+    contenedor.style.animation = "sacudidaCamara 0.4s ease-in-out";
+    capa.style.display = "flex";
+    capa.style.opacity = "1";
+
+    btnOmitir.onclick = function() {
+      capa.style.opacity = "0";
+      setTimeout(() => { 
+        capa.style.display = "none"; 
+        if (esAvance) {
+          avanzarPregunta();
+        } else {
+          iniciarNivel(nivelDestino);
+        }
+      }, 350);
+    };
+  }
+
+  function iniciarNivel(num) {
+    nivelActivo = num;
+    qIndice = 0;
+    puntos = num === 1 ? 0 : puntos; 
+    
+    if(num >= 7) {
+      vidasMaximas = 6; 
+    } else {
+      vidasMaximas = 5; 
+    }
+    vidas = vidasMaximas;
+    bloqueado = false;
+
+    const panelJuego = document.getElementById("pantalla-juego");
+    const cuadroHistoria = document.getElementById("cuadro-historia");
+
+    if(num <= 1) { panelJuego.style.borderColor = "#b91c1c"; cuadroHistoria.style.borderColor = "#ea580c"; }
+    else if(num===2) { panelJuego.style.borderColor = "#0284c7"; cuadroHistoria.style.borderColor = "#38bdf8"; }
+    else if(num===3) { panelJuego.style.borderColor = "#e11d48"; cuadroHistoria.style.borderColor = "#fb7185"; }
+    else if(num===4) { panelJuego.style.borderColor = "#0d9488"; cuadroHistoria.style.borderColor = "#2dd4bf"; }
+    else if(num===5) { panelJuego.style.borderColor = "#d97706"; cuadroHistoria.style.borderColor = "#fbbf24"; }
+    else if(num===6) { panelJuego.style.borderColor = "#2563eb"; cuadroHistoria.style.borderColor = "#60a5fa"; }
+    else if(num===7) { panelJuego.style.borderColor = "#4f46e5"; cuadroHistoria.style.borderColor = "#818cf8"; }
+    else if(num===8) { panelJuego.style.borderColor = "#9333ea"; cuadroHistoria.style.borderColor = "#c084fc"; }
+    else if(num===9) { panelJuego.style.borderColor = "#db2777"; cuadroHistoria.style.borderColor = "#f472b6"; }
+    else if(num===10) { panelJuego.style.borderColor = "#10b981"; cuadroHistoria.style.borderColor = "#34d399"; }
+    else if(num===11) { panelJuego.style.borderColor = "#6366f1"; cuadroHistoria.style.borderColor = "#a5b4fc"; }
+
+    document.getElementById("score").innerText = puntos;
+    document.getElementById("vidas").innerText = vidas;
+    document.getElementById("feedback").innerText = "";
+    document.getElementById("explicacion").innerText = "";
+    document.getElementById("btn-reintentar").style.display = "none";
+    document.getElementById("btn-abortar").style.display = "inline-block";
+    document.getElementById("pantalla-menu").style.display = "none";
+    document.getElementById("pantalla-juego").style.display = "block";
+    
+    cargarPregunta();
+  }
+
+  function cargarPregunta() {
+    let lista = bancoPreguntasOriginal["nivel" + nivelActivo];
+    const datos = lista[qIndice];
+
+    document.getElementById("progreso-txt").innerText = datos.lugar + " (" + (qIndice + 1) + "/7)";
+    document.getElementById("historia-texto").innerText = datos.historia;
+    document.getElementById("pantalla-emoji").innerText = datos.emoji;
+    document.getElementById("pregunta-texto").innerText = datos.q;
+    
+    ordenOpcionesMapeado = [0, 1, 2, 3];
+    ordenOpcionesMapeado.sort(() => Math.random() - 0.5);
+
+    for (let i = 0; i < 4; i++) {
+      const btn = document.getElementById("btn" + i);
+      let indiceOriginalOpcion = ordenOpcionesMapeado[i];
+      
+      btn.innerText = datos.ops[indiceOriginalOpcion];
+      btn.style.display = "block";
+      btn.style.background = "rgba(31, 41, 55, 0.8)";
+      btn.style.borderColor = "#4b5563";
+    }
+
+    document.getElementById("panel-botones").style.opacity = "1";
+    document.getElementById("btn-siguiente").style.display = "none";
+    bloqueado = false;
+  }
+
+  function comprobarRespuestaBoton(botonPresionado) {
+    if (vidas <= 0 || bloqueado) return;
+    bloqueado = true;
+
+    let lista = bancoPreguntasOriginal["nivel" + nivelActivo];
+    const datos = lista[qIndice];
+    
+    let indiceOriginalElegido = ordenOpcionesMapeado[botonPresionado];
+    
+    const feedback = document.getElementById("feedback");
+    const explicacion = document.getElementById("explicacion");
+    const btnSiguiente = document.getElementById("btn-siguiente");
+
+    if (indiceOriginalElegido === datos.ans) {
+      puntos += 200;
+      document.getElementById("score").innerText = puntos;
+      
+      feedback.style.color = "#34d399";
+      feedback.innerText = "✔️ ¡SABOTAJE NEUTRALIZADO! CÓDIGO BIOLÓGICO VÁLIDO";
+      explicacion.innerText = datos.desc;
+      
+      document.getElementById("btn" + botonPresionado).style.background = "#065f46";
+      document.getElementById("btn" + botonPresionado).style.borderColor = "#34d399";
+      
+      document.getElementById("panel-botones").style.opacity = "0.3";
+      btnSiguiente.style.display = "inline-block";
+    } else {
+      vidas--;
+      document.getElementById("vidas").innerText = vidas;
+      
+      feedback.style.color = "#f43f5e";
+      feedback.innerText = "❌ ¡X-99 HA PERFORADO TU BLINDAJE!";
+      explicacion.innerText = "Reporte de error: " + datos.desc;
+      
+      document.getElementById("btn" + botonPresionado).style.background = "#991b1b";
+      document.getElementById("btn" + botonPresionado).style.borderColor = "#f43f5e";
+
+      if (vidas === 0) {
+        setTimeout(() => {
+          document.getElementById("pantalla-emoji").innerText = "☠️";
+          document.getElementById("pregunta-texto").innerText = "🚨 LA NEUROTOXINA X-99 HA VENCIDO A TU EQUIPO 🚨\nFallo crítico en el sector: " + datos.lugar;
+          document.getElementById("panel-botones").style.opacity = "0.1";
+          feedback.style.color = "#ef4444";
+          feedback.innerText = "🛑 ENERGÍA AGOTADA: REINICIA ESTE SECTOR ANATÓMICO";
+          document.getElementById("btn-abortar").style.display = "none";
+          document.getElementById("btn-reintentar").style.display = "inline-block";
+        }, 800);
+      } else {
+        bloqueado = false;
+      }
+    }
+  }
+
+  function prepararSiguienteCasillaNarrativa() {
+    let lista = bancoPreguntasOriginal["nivel" + nivelActivo];
+    const proximaQ = lista[qIndice + 1];
+    let destinoTxt = "Saltando bloque orgánico...";
+    let detalleTxt = "";
+    if(proximaQ) {
+      destinoTxt = "Localizando brecha de X-99 en: " + proximaQ.lugar;
+      detalleTxt = proximaQ.historia;
+    }
+    activarTransicionViaje(nivelActivo, destinoTxt, detalleTxt, true);
+  }
+
+  function avanzarPregunta() {
+    qIndice++;
+    let lista = bancoPreguntasOriginal["nivel" + nivelActivo];
+
+    if (qIndice < lista.length) {
+      document.getElementById("feedback").innerText = "";
+      document.getElementById("explicacion").innerText = "";
+      cargarPregunta();
+    } else {
+      document.getElementById("btn-siguiente").style.display = "none";
+
+      if (nivelActivo === 1) {
+        desbloqueados[2] = true;
+        document.getElementById("llave-r").style.filter = "none"; document.getElementById("llave-r").style.opacity = "1";
+        desbloquearBotonUI("btn-nivel2", "linear-gradient(135deg, #0284c7, #0ea5e9)", "candado-icono-2", "🔓");
+        regresarAlMenu(); lanzarBloqueHistoria("postNivel1");
+      } else if (nivelActivo === 2) {
+        desbloqueados[3] = true;
+        document.getElementById("llave-c").style.filter = "none"; document.getElementById("llave-c").style.opacity = "1";
+        desbloquearBotonUI("btn-nivel3", "linear-gradient(135deg, #b91c1c, #e11d48)", "candado-icono-3", "🔓");
+        regresarAlMenu(); lanzarBloqueHistoria("postNivel2");
+      } else if (nivelActivo === 3) {
+        desbloqueados[4] = true;
+        document.getElementById("llave-e").style.filter = "none"; document.getElementById("llave-e").style.opacity = "1";
+        desbloquearBotonUI("btn-nivel4", "linear-gradient(135deg, #0d9488, #14b8a6)", "candado-icono-4", "🔓");
+        regresarAlMenu(); lanzarBloqueHistoria("postNivel3");
+      } else if (nivelActivo === 4) {
+        desbloqueados[5] = true;
+        document.getElementById("llave-d").style.filter = "none"; document.getElementById("llave-d").style.opacity = "1";
+        desbloquearBotonUI("btn-nivel5", "linear-gradient(135deg, #d97706, #f59e0b)", "candado-icono-5", "🔓");
+        regresarAlMenu(); lanzarBloqueHistoria("postNivel4");
+      } else if (nivelActivo === 5) {
+        desbloqueados[6] = true;
+        document.getElementById("llave-m").style.filter = "none"; document.getElementById("llave-m").style.opacity = "1";
+        desbloquearBotonUI("btn-nivel6", "linear-gradient(135deg, #2563eb, #3b82f6)", "candado-icono-6", "🔓");
+        regresarAlMenu(); lanzarBloqueHistoria("postNivel5");
+      } else if (nivelActivo === 6) {
+        desbloqueados[7] = true;
+        vidasMaximas = 6; 
+        
+        // Revelar las llaves secretas en la UI
+        document.getElementById("llave-n").style.display = "inline";
+        document.getElementById("llave-h").style.display = "inline";
+        document.getElementById("llave-i").style.display = "inline";
+
+        // Cambiar subtítulo
+        document.getElementById("subtitulo-juego").innerText = "🚨 PARTE 2: LA MUTACIÓN EN EL CUERPO DE ELENA";
+        document.getElementById("subtitulo-juego").style.color = "#f43f5e";
+        document.getElementById("subtitulo-juego").style.textShadow = "0 0 10px rgba(244,63,94,0.4)";
+        
+        // Generar dinámicamente el HTML de la secuela para que NO exista previamente en la UI
+        const seccionSecuela = document.getElementById("seccion-secuela-elena");
+        seccionSecuela.innerHTML = `
+          <h3 style="color: #f43f5e; font-size: 15px; margin: 0 0 10px 0; text-shadow: 0 0 10px rgba(244,63,94,0.5);">🧍‍♀️ ¡SECUELA DESBLOQUEADA!: PACIENTE ELENA (SISTEMAS AMPLIADOS)</h3>
+          <p id="aviso-secuela" style="font-size: 11px; color: #34d399; font-style: italic; margin-bottom: 10px;">⚠️ Blindaje Mejorado: Tu nave ha sido reforzada a un límite de 6 ESCUDOS de energía química.</p>
+          <div style="display: grid; grid-template-columns: 1fr; gap: 10px; max-width: 650px; margin: 0 auto;">
+            <button id="btn-nivel7" onclick="intentarNivel(7)" style="background: #1f2937; border: 1px dashed #4b5563; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: bold; color: #4b5563; cursor: not-allowed; text-align: left; display: flex; justify-content: space-between;"><span>🧠 M-7: Sistema Nervioso de Elena (7 Etapas)</span> <span id="candado-icono-7">🔒</span></button>
+            <button id="btn-nivel8" onclick="intentarNivel(8)" style="background: #1f2937; border: 1px dashed #4b5563; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: bold; color: #4b5563; cursor: not-allowed; text-align: left; display: flex; justify-content: space-between;"><span>🧬 M-8: Sistema Endocrino y Hormonal</span> <span id="candado-icono-8">🔒</span></button>
+            <button id="btn-nivel9" onclick="intentarNivel(9)" style="background: #1f2937; border: 1px dashed #4b5563; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: bold; color: #4b5563; cursor: not-allowed; text-align: left; display: flex; justify-content: space-between;"><span>🚺 M-9: Aparato Reproductor Fem. y Ciclo</span> <span id="candado-icono-9">🔒</span></button>
+            <button id="btn-nivel10" onclick="intentarNivel(10)" style="background: #1f2937; border: 1px dashed #4b5563; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: bold; color: #4b5563; cursor: not-allowed; text-align: left; display: flex; justify-content: space-between;"><span>🛡️ M-10: Sistema Inmunitario y Linfático</span> <span id="candado-icono-10">🔒</span></button>
+            <button id="btn-nivel11" onclick="intentarNivel(11)" style="background: #1f2937; border: 1px dashed #4b5563; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: bold; color: #4b5563; cursor: not-allowed; text-align: left; display: flex; justify-content: space-between;"><span>🧪 M-11: Regulación Renal y Homeostasis</span> <span id="candado-icono-11">🔒</span></button>
+          </div>
+        `;
+        seccionSecuela.style.display = "block";
+        
+        desbloquearBotonUI("btn-nivel7", "linear-gradient(135deg, #4f46e5, #6366f1)", "candado-icono-7", "🔓");
+        regresarAlMenu(); 
+        lanzarBloqueHistoria("postNivel6");
+      } else if (nivelActivo === 7) {
+        desbloqueados[8] = true;
+        document.getElementById("llave-n").style.filter = "none"; document.getElementById("llave-n").style.opacity = "1";
+        desbloquearBotonUI("btn-nivel8", "linear-gradient(135deg, #9333ea, #a855f7)", "candado-icono-8", "🔓");
+        regresarAlMenu(); lanzarBloqueHistoria("postNivel7");
+      } else if (nivelActivo === 8) {
+        desbloqueados[9] = true;
+        document.getElementById("llave-h").style.filter = "none"; document.getElementById("llave-h").style.opacity = "1";
+        desbloquearBotonUI("btn-nivel9", "linear-gradient(135deg, #db2777, #ec4899)", "candado-icono-9", "🔓");
+        regresarAlMenu(); lanzarBloqueHistoria("postNivel8");
+      } else if (nivelActivo === 9) {
+        desbloqueados[10] = true;
+        desbloquearBotonUI("btn-nivel10", "linear-gradient(135deg, #10b981, #34d399)", "candado-icono-10", "🔓");
+        regresarAlMenu(); lanzarBloqueHistoria("postNivel9");
+      } else if (nivelActivo === 10) {
+        desbloqueados[11] = true;
+        document.getElementById("llave-i").style.filter = "none"; document.getElementById("llave-i").style.opacity = "1";
+        desbloquearBotonUI("btn-nivel11", "linear-gradient(135deg, #6366f1, #818cf8)", "candado-icono-11", "🔓");
+        regresarAlMenu(); lanzarBloqueHistoria("postNivel10");
+      } else if (nivelActivo === 11) {
+        document.getElementById("pantalla-emoji").innerText = "🏆👑🥇";
+        document.getElementById("pregunta-texto").innerText = "¡FELICIDADES EXPERTO BIOLÓGICO! Has erradicado la Neurotoxina X-99 de los cuerpos de Carlos y Elena. Dominaste todos los sistemas y completaste la secuela extendida al 100%.";
+        document.getElementById("feedback").style.color = "#34d399";
+        document.getElementById("feedback").innerText = "🔥 AMENAZA COMPLETAMENTE ANIQUILADA DE LOS SERVIDORES 🔥";
+        document.getElementById("btn-abortar").style.display = "none";
+        document.getElementById("btn-reintentar").style.display = "inline-block";
+      }
+    }
+  }
+
+  function desbloquearBotonUI(idBtn, backgroundStyle, idIcono, iconoTxt) {
+    const btn = document.getElementById(idBtn);
+    btn.style.background = backgroundStyle; 
+    btn.style.border = "none";
+    btn.style.color = "white"; 
+    btn.style.cursor = "pointer";
+    document.getElementById(idIcono).innerText = iconoTxt;
+  }
+
+  function intentarNivel(num) {
+    if (desbloqueados[num]) {
+      let textoP = '🎬 INICIANDO TRANSFERENCIA DE COORDENADAS...';
+      let textoS = 'Calculando vector de entrada...';
+      
+      if(num === 1) { textoP = '🍔 ENTRANDO AL APARATO DIGESTIVO (CARLOS)'; textoS = 'Analizando el bolo alimenticio...'; }
+      if(num === 2) { textoP = '🫁 ENTRANDO AL APARATO RESPIRATORIO (CARLOS)'; textoS = 'Limpiando fluidos en el árbol bronquial...'; }
+      if(num === 3) { textoP = '🩸 COMPUERTAS CARDIOVASCULARES ABIERTAS'; textoS = 'Navegando arterias a ritmo cardíaco...'; }
+      if(num === 4) { textoP = '🧪 FILTRADO DE NEFRONAS ACTIVO'; textoS = 'Buscando residuos químicos de urea...'; }
+      if(num === 5) { textoP = '🦴 ACCEDIENDO A LA MATRIZ ÓSEA'; textoS = 'Estabilizando palancas osteoblásticas...'; }
+      if(num === 6) { textoP = '🚹 APARATO REPRODUCTOR MASCULINO'; textoS = 'Limpiando conductos deferentes de Carlos...'; }
+      
+      if(num === 7) { textoP = '🧠 SECUELA: SISTEMA NERVIOSO DE ELENA'; textoS = 'Infiltrando somas y sinapsis neuronales...'; }
+      if(num === 8) { textoP = '🧬 SECUELA: EN EL COMPLEJO ENDOCRINO'; textoS = 'Rastreando la hipófisis y el metabolismo hormonal...'; }
+      if(num === 9) { textoP = '🚺 REPRODUCTOR FEMENINO AVANZADO'; textoS = 'Protegiendo el endometrio y el ciclo ovárico de Elena...'; }
+      if(num === 10) { textoP = '🛡️ AMPLIACIÓN: INMUNITARIO Y LINFÁTICO'; textoS = 'Patrullando macrófagos y ganglios en alerta...'; }
+      if(num === 11) { textoP = '🧪 ESTACIÓN FINAL: HOMEOSTASIS COMPLETA'; textoS = 'Regulando balance hídrico, iones de hidrógeno y pH plasmático...'; }
+      
+      activarTransicionViaje(num, textoP, textoS);
+    } else {
+      alert("🔒 Sector Encriptado: Debes superar las etapas biológicas previas en orden anatómico estricto.");
+    }
+  }
+
+  function regresarAlMenu() {
+    document.getElementById("pantalla-juego").style.display = "none";
+    document.getElementById("pantalla-menu").style.display = "block";
+  }
+
+  lanzarBloqueHistoria("intro");
+</script>
+
+<style>
+  @keyframes sacudidaCamara {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(0px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(2px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(2px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(0deg); }
+  }
+  @keyframes glitchSecuela {
+    0% { opacity: 0; transform: scale(0.95); filter: hue-rotate(90deg); }
+    50% { opacity: 0.5; transform: scale(1.02); }
+    100% { opacity: 1; transform: scale(1); filter: hue-rotate(0deg); }
+  }
+</style>
